@@ -27,20 +27,22 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-const base_url = process.env.backend;
+// const base_url = process.env.backend;
+// const base_url = `http://localhost:5000`;
+// console.log(base_url);
 
-app.get(`${base_url}/api/rzp/razorpay-key`, (req, res) => {
+app.get(`/api/rzp/razorpay-key`, (req, res) => {
   const razorpayKey = process.env.REACT_APP_RAZORPAY_KEY_ID;
   res.json({ razorpayKey });
 });
 
 // app.use("/api/seed", seedRouter);
-app.use(`${base_url}/api/products`, productRouter);
-app.use(`${base_url}/api/users`, userRouter);
-app.use(`${base_url}/api/orders`, orderRouter);
-app.use(`${base_url}/admin/api/orders`, orderRouter);
-app.use(`${base_url}/api/create`, payRouter);
-app.use(`${base_url}/api/upload`, uploadRouter);
+app.use(`/api/products`, productRouter);
+app.use(`/api/users`, userRouter);
+app.use(`/api/orders`, orderRouter);
+app.use(`/admin/api/orders`, orderRouter);
+app.use(`/api/create`, payRouter);
+app.use(`/api/upload`, uploadRouter);
 // app.use("/api/rzp", rzpRouter);
 
 const __dirname = path.resolve();
