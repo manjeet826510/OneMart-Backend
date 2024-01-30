@@ -77,8 +77,8 @@ productRouter.get(
 
     const { query } = req;
 
-    const category = query.category || "";
     const searchQuery = query.query || "";
+    const category = query.category || "";
     const price = query.price || "";
     const rating = query.rating || "";
     const order = query.order || "";
@@ -89,14 +89,28 @@ productRouter.get(
     const pageSize = query.pageSize || PAGE_SIZE;
 
     const queryFilter =
-      searchQuery && searchQuery !== "all"
-        ? {
+      searchQuery && searchQuery != "all"
+      ?   {
+        $or: [
+          {
             name: {
-              $regex: searchQuery, //searchQuery = Shirts || nike
+              $regex: searchQuery, // searchQuery = Shirts || nike
               $options: "i", // i = case insensitive
             },
+          },
+          {
+            category: {
+              $regex: searchQuery, // searchQuery = Shirts || nike
+              $options: "i", // i = case insensitive
+            },
+          },
+        ],
           }
         : {}; //putting {} disables the queryFilter
+
+        console.log(`category = ${category}`);
+        console.log(`queryFilter = ${queryFilter}`);
+
 
     const categoryFilter = category && category !== "all" ? { category } : {};
 
@@ -187,6 +201,8 @@ productRouter.get("/slug/:slug", async (req, res) => {
     res.status(404).send({ message: "Product Not Found" });
   }
 });
+
+
 productRouter.get(
   "/:id",
   expressAsyncHandler(async (req, res) => {
